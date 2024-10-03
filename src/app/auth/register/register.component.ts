@@ -1,36 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '../model/model';
-import { AuthServices } from '../auth.service';
 import { Router } from '@angular/router';
+import { AuthServices } from '../auth.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
-
+export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   isLoading = false;
-  user: User = {
-    email:'',
-    username: '',
-    password: ''
-  }
 
-  constructor(private fb: FormBuilder, private router: Router, private authService: AuthServices){}
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthServices) {}
 
   ngOnInit(): void {
     this.initializeSignup();
   }
 
-  initializeSignup(){
+  initializeSignup() {
     this.registerForm = this.fb.group({
+      username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       repeatpassword: ['', [Validators.required]],
-    }, { validator: this.passwordMatchValidator });
+    }, { validators: this.passwordMatchValidator });
   }
 
   passwordMatchValidator(form: AbstractControl) {
@@ -40,47 +34,33 @@ export class RegisterComponent {
     if (password?.value !== repeatPassword?.value) {
       repeatPassword?.setErrors({ mismatch: true });
       return { mismatch: true };
-    } else {
-      return null;
     }
+    return null;
   }
-
-  handleSignup() {
+  
+  async handleSignup() {
     if (this.registerForm.valid) {
-      const getSignupValues = this.registerForm.getRawValue();
       this.isLoading = true;
+      const { email, username, password } = this.registerForm.getRawValue();
 
-      this.authService.register(getSignupValues.email, getSignupValues.username, getSignupValues.password).
-      subscribe((response) => {
-        this.isLoading = false; 
+      try {
+        const response = await this.authService.register(email, username, password);
+        this.isLoading = false;
+
         if (response.success) {
           this.router.navigate(['']);
         }
-      },(error) => {
+      } catch (error) {
         this.isLoading = false;
-        console.error(error);
-      });
-    }else{
+        console.error('Error during registration:', error);
+      }
+    } else {
       this.registerForm.markAllAsTouched();
     }
   }
 
-  getFormFieldError(fieldName: string): string {
-    const field = this.registerForm.get(fieldName);
-    if (field?.hasError('required')) {
-      return 'Can`t be empty';
-    } else if (field?.hasError('email')) {
-      return 'Enter a valid email';
-    } else if (field?.hasError('minlength')) {
-      return `At least 6 characters long`;
-    }else if (fieldName === 'repeatpassword' && this.registerForm.hasError('mismatch')) {
-      return 'Passwords must match';
-    }
-    return '';
-  }
-
-  navigateToLogin(): void{
-    this.router.navigate([''])
+  navigateToLogin(): void {
+    this.router.navigate(['']);
   }
 
   onGoogleLogin() {
@@ -88,8 +68,6 @@ export class RegisterComponent {
       (response) => {
         if (response.success) {
           this.router.navigate(['/blog']);
-        } else {
-          console.error('Google login failed');
         }
       },
       (err: any) => {

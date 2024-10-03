@@ -1,12 +1,12 @@
 export const environment = {
     production: false,
     firebaseConfig: {
-        apiKey: "AIzaSyAJNs1HK_zM0dq1L9AmhrhDqQcNVGhfod4",
-        authDomain: "fir-blog-d6c4e.firebaseapp.com",
-        projectId: "fir-blog-d6c4e",
-        storageBucket: "fir-blog-d6c4e.appspot.com",
-        messagingSenderId: "477322612486",
-        appId: "1:477322612486:web:007d21e8db91c46b80d887"
+    apiKey: "AIzaSyDVzYeNaEgrCktnhn_BKS2kY1j9XkcWsUU",
+    authDomain: "fir-blog-app-cf14c.firebaseapp.com",
+    projectId: "fir-blog-app-cf14c",
+    storageBucket: "fir-blog-app-cf14c.appspot.com",
+    messagingSenderId: "483316436547",
+    appId: "1:483316436547:web:18561f7856861d16710ef6"
     }
   };
   

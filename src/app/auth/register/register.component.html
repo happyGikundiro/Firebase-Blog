@@ -1,60 +1,23 @@
-<div class='min-h-screen grid grid-rows-[auto_1fr] md:grid-rows-1 md:grid-cols-3'>
-    <div class='bg-primary text-white p-6 md:p-10 md:col-span-1 flex flex-col justify-center items-center space-y-4 md:space-y-6'>
-        <h2 class='text-xl md:text-2xl font-bold text-center'>Welcome to our Site!</h2>
-        <p class='text-base md:text-lg text-center'>Please enter your Registration details, and start your journey with us. <span class='text-sm'>Already have an account?</span></p>
-        <button (click)="navigateToLogin()" class="border-2 border-white text-white py-3 px-10 rounded-full text-sm font-semibold transition-colors">login</button>
+<div class="min-h-screen grid grid-rows-[auto_1fr] md:grid-rows-1 md:grid-cols-3">
+  <div class="bg-primary text-white p-6 md:p-10 md:col-span-1 flex flex-col justify-center items-center space-y-4 md:space-y-6 ">
+    <h2 class="text-xl md:text-2xl font-bold text-center">Welcome!</h2>
+    <p class="text-base md:text-lg text-center">Create an account to get started. <span class="text-sm">Already have an account?</span></p>
+    <button (click)="navigateToLogin()" class="border-2 border-white text-white py-3 px-10 rounded-full text-sm font-semibold transition-colors">Login</button>
+  </div>
 
-    </div>
+  <div class="bg-white md:col-span-2 flex md:items-center justify-center p-6 md:p-10 ">
+    <div class="space-y-6 p-8 max-w-xl w-full">
+      <h2 class="text-primary text-3xl font-bold mb-10 text-center">Register</h2>
+      <app-form [formGroup]="registerForm" [isLoading]="isLoading" formType="register" (submitForm)="handleSignup()"></app-form>
 
-    <div class='bg-white md:col-span-2 flex md:items-center justify-center p-6 md:p-10'>
-        <div class='space-y-6 p-8  max-w-xl w-full'>
-            <h2 class='text-primary text-3xl font-bold mb-10 text-center'>Register</h2>
-
-            <form [formGroup]="registerForm" (ngSubmit)="handleSignup()" class='space-y-6'>
-                <div class='relative'>
-                    <input type="text" formControlName="email" placeholder='Email address' 
-                    class='bg-transparent border-b-2 w-full p-3 outline-none text-black text-base'
-                    [class.border-red]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-                    <p *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="absolute right-4 top-3 text-red text-sm">
-                        {{ getFormFieldError('email') }}
-                    </p>
-                </div>
-                <div class='relative'>
-                    <input type="password" formControlName="password" placeholder='Password' 
-                    class='bg-transparent border-b-2 w-full p-3 outline-none text-black text-base'
-                    [class.border-red]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-                    <p *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="absolute right-4 top-3 text-red text-sm">
-                        {{ getFormFieldError('password') }}
-                    </p>
-                </div>
-                <div class='relative'>
-                    <input type="password" formControlName="repeatpassword" placeholder='Repeat password' 
-                    class='bg-transparent border-b-2 w-full p-3 outline-none text-black text-base'
-                    [class.border-red]="registerForm.get('repeatpassword')?.invalid && registerForm.get('repeatpassword')?.touched">
-                    <p *ngIf="registerForm.get('repeatpassword')?.invalid && registerForm.get('repeatpassword')?.touched" class="absolute right-4 top-3 text-red text-sm">
-                        {{ getFormFieldError('repeatpassword') }}
-                    </p>
-                </div>
-                <div class='pt-6'>
-                    <button *ngIf="!isLoading" class="w-full rounded-md bg-primary text-white py-3 px-10 text-md font-medium transition-colors">Create an account</button>
-                    <app-loader *ngIf="isLoading"></app-loader>
-                </div>
-
-                <div class='flex items-center gap-4 px-5 md:px-20 py-5'>
-                    <div class='h-[1px] w-full bg-gray-200'></div>
-                    <p class='font-semibold'>Or</p>
-                    <div class='h-[1px] w-full bg-gray-200'></div>
-                </div>
-            </form>
-
-            <div class='flex justify-center'>
-                <button class='flex items-center gap-3' (click)="onGoogleLogin()">
-                    <div class='w-5 h-5'>
-                        <img src="/Images/google.png" alt="google">
-                    </div>
-                    <p class='font-semibold text-primary'>Register with Google</p>
-                </button>
+      <div class='flex justify-center'>
+        <button class='flex items-center gap-3' (click)="onGoogleLogin()">
+            <div class='w-5 h-5'>
+                <img src="/Images/google.png" alt="google">
             </div>
-        </div>
+            <p class='font-semibold text-primary'>Register with Google</p>
+        </button>
+      </div>
     </div>
+  </div>
 </div>
