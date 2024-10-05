@@ -3,7 +3,8 @@ import { AuthServices } from '../../auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User as CustomUser } from '../../auth/model/model';
 import { User as FirebaseUser } from '@angular/fire/auth';
-import { Subscription, switchMap } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common'; 
 
 @Component({
@@ -19,8 +20,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   isLoading = false;
   selectedFile: File | null = null;
 
-  userSubscription!: Subscription;
-  updateSubscription!: Subscription;
+  private destroy$ = new Subject<void>();
 
   constructor(private authService: AuthServices, private fb: FormBuilder, private location: Location) {}
 
@@ -30,17 +30,23 @@ export class ProfileComponent implements OnInit, OnDestroy {
       profileImage: [null]
     });
 
-    this.userSubscription = this.authService.getCurrentUser().subscribe(fbUser => {
-      this.firebaseUser = fbUser;
-      if (fbUser) {
-        this.user = {
-          email: fbUser.email || '', username: fbUser.displayName || '', password: '', photoURL: fbUser.photoURL || ''
-        };
-        this.profileForm.patchValue({
-          displayName: fbUser.displayName || ''
-        });
-      }
-    });
+    this.authService.getCurrentUser()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(fbUser => {
+        this.firebaseUser = fbUser;
+
+        if (fbUser) {
+          this.user = {
+            email: fbUser.email || '', username: fbUser.displayName || '', password: '', photoURL: fbUser.photoURL || ''
+          };
+          this.profileForm.patchValue({
+            displayName: fbUser.displayName || ''
+          });
+        } else {
+          return;
+        }
+        this.isLoading = false;
+      });
   }
 
   onFileSelected(event: any) {
@@ -49,10 +55,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   updateProfile() {
     if (!this.profileForm.valid || !this.firebaseUser) return;
-  
+
     this.isLoading = true;
     const { displayName } = this.profileForm.value;
-  
+
     const updateOperation$ = this.selectedFile
       ? this.authService.uploadProfileImage(this.firebaseUser, this.selectedFile).pipe(
           switchMap(photoURL => 
@@ -60,8 +66,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
           )
         )
       : this.authService.updateUserProfile(this.firebaseUser, { displayName });
-  
-    this.updateSubscription = updateOperation$.subscribe({
+
+    updateOperation$.pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         this.isLoading = false;
         if (this.user) {
@@ -83,12 +89,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
-    }
-
-    if (this.updateSubscription) {
-      this.updateSubscription.unsubscribe();
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

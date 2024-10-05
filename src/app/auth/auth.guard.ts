@@ -1,53 +1,25 @@
-// import { Injectable } from '@angular/core';
-// import { CanActivate, Router } from '@angular/router';
-// import { Auth, user } from '@angular/fire/auth';
-// import { inject } from '@angular/core';
-// import { Observable, map } from 'rxjs';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class AuthGuard implements CanActivate {
-
-//   firebaseAuth = inject(Auth);
-//   constructor(private router: Router) {}
-
-//   canActivate(): Observable<boolean> {
-//     return user(this.firebaseAuth).pipe(
-//       map((authUser) => {
-//         if (authUser) {
-//           return true;
-//         } else {
-//           this.router.navigate(['']);
-//           return false;
-//         }
-//       })
-//     );
-//   }
-// }
-
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import { AuthServices } from './auth.service';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private auth: Auth, private router: Router) {}
+  constructor(private authService: AuthServices, private router: Router) {}
 
   canActivate(): Observable<boolean> {
-    return new Observable<boolean>((observer) => {
-      onAuthStateChanged(this.auth, (user) => {
+    return this.authService.getCurrentUser().pipe(
+      map((user) => {
         if (user) {
-          observer.next(true);
+          return true;
         } else {
-          this.router.navigate(['']);
-          observer.next(false);
+          this.router.navigate(['/login']);
+          return false;
         }
-        observer.complete();
-      });
-    });
+      })
+    );
   }
 }

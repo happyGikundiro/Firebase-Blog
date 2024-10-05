@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent},
   { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule),
     canActivate: [AuthGuard]
-   }
+   },
+  { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({

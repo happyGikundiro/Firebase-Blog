@@ -13,6 +13,7 @@ import { LoaderComponent } from './auth/loader/loader.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { FormComponent } from './auth/form/form.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
     LoginComponent,
     RegisterComponent,
     LoaderComponent,
+    FormComponent,
   ],
   imports: [
     BrowserModule,

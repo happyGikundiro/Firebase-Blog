@@ -1,21 +1,23 @@
-
 <div class="fixed z-50 bg-primary w-full flex justify-between items-center px-5 py-2 md:px-10 md:m-5 md:w-[95%] md:rounded-full">
     <div class='text-white text-2xl'>Logo</div>
   
-    <div class='cursor-pointer relative flex items-center gap-3' (click)="toggleModal()" *ngIf="user">
-      <div class='rounded-full w-[50px] h-[50px] flex justify-center items-center'>
-        <img [src]="user.photoURL || '/Images/upload.png'" 
-             [alt]="user.displayName || 'profile'" class='w-full h-full object-cover rounded-full'>
+    <ng-container *ngIf="user$ | async as user">
+      <div class='cursor-pointer relative flex items-center gap-3' (click)="toggleModal()">
+        <div class='rounded-full w-[50px] h-[50px] flex justify-center items-center'>
+          <img [src]="user.photoURL || 'Images/upload.png'" 
+               [alt]="user.displayName || 'profile'" class='w-full h-full object-cover rounded-full'>
+        </div>
+        <span class="text-white hidden md:flex">{{ user.displayName || user.email }}</span>
+        
+        <button class="mt-1">
+          <img [src]="isModalOpen ? '/Images/icon-chevron-up.svg' : '/Images/icon-chevron-down.svg'" 
+               alt="menu-toggle-icon" class='w-[14px] h-[12px]'>
+        </button>
       </div>
-      <span class="text-white hidden md:flex">{{ user.displayName || user.email }}</span>
       
-      <button class="mt-1">
-        <img [src]="isModalOpen ? '/Images/icon-chevron-up.svg' : '/Images/icon-chevron-down.svg'" alt="menu-toggle-icon" class='w-[14px] h-[12px]'>
-      </button>
-    </div>
-     
-    <div *ngIf="isModalOpen" class='absolute shadow-2xl top-20 right-2 bg-semidarkblue text- p-4 rounded-md w-40 space-y-4 border border-primary'>
-      <button (click)="goToProfile()" class='text-primary hover:font-bold'>Profile</button><br>
-      <button (click)="logout()" class='text-primary hover:font-bold'>Logout</button>
-    </div>
-  </div>
+      <div *ngIf="isModalOpen" class='absolute shadow-2xl top-20 right-2 bg-semidarkblue text- p-4 rounded-md w-40 space-y-4 border border-primary'>
+        <button (click)="goToProfile()" class='text-primary hover:font-bold'>Profile</button><br>
+        <button (click)="logout()" class='text-primary hover:font-bold'>Logout</button>
+      </div>
+    </ng-container>
+</div>

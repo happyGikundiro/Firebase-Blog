@@ -1,0 +1,42 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="space-y-4">
+  <div class="relative">
+    <input type="text" formControlName="email" placeholder="Email address"
+           class="bg-transparent border-b-2 w-full p-2 outline-none text-black text-sm"
+           [class.border-red]="emailError">
+    <p *ngIf="emailError" class="absolute right-4 top-3 text-red text-xs">{{ emailError }}</p>
+  </div>
+
+  <div class="relative" *ngIf="formType === 'register'">
+    <input type="text" formControlName="username" placeholder="Username"
+           class="bg-transparent border-b-2 w-full p-2 outline-none text-black text-sm"
+           [class.border-red]="usernameError">
+    <p *ngIf="usernameError" class="absolute right-4 top-3 text-red text-xs">{{ usernameError }}</p>
+  </div>
+
+  <div class="relative">
+    <input type="password" formControlName="password" placeholder="Password"
+           class="bg-transparent border-b-2 w-full p-2 outline-none text-black text-sm"
+           [class.border-red]="passwordError">
+    <p *ngIf="passwordError" class="absolute right-4 top-3 text-red text-xs">{{ passwordError }}</p>
+  </div>
+  
+  <div class="relative" *ngIf="formType === 'register'">
+    <input type="password" formControlName="repeatpassword" placeholder="Repeat password"
+           class="bg-transparent border-b-2 w-full p-2 outline-none text-black text-sm"
+           [class.border-red]="repeatPasswordError">
+    <p *ngIf="repeatPasswordError" class="absolute right-4 top-3 text-red text-xs">{{ repeatPasswordError }}</p>
+  </div>
+
+  <div class="pt-6">
+    <button *ngIf="!isLoading" class="w-full bg-primary text-white py-3 px-10 rounded-md text-md font-medium hover:bg-primary-dark transition-colors" type="submit">
+      {{ formType === 'login' ? 'Login to your account' : 'Create an account' }}
+    </button>
+    <app-loader *ngIf="isLoading"></app-loader>
+  </div>
+
+  <div class="flex items-center gap-4 px-5 md:px-20 py-5">
+    <div class="h-[1px] w-full bg-gray-200"></div>
+    <p class="font-semibold">Or</p>
+    <div class="h-[1px] w-full bg-gray-200"></div>
+  </div>
+</form>
