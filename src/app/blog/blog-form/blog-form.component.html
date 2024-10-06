@@ -1,0 +1,63 @@
+<div class="fixed inset-0 flex items-center justify-center z-50">
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="mx-4 space-y-6 max-w-[500px] w-full p-8 bg-white shadow-lg rounded-lg">
+
+    <button 
+      type="button" 
+      (click)="closeModal()" 
+      class="w-full text-end text-primary text-md font-medium"
+    >
+      Close
+    </button>
+    
+    <div>
+      <div class='flex justify-between items-center mb-2'>
+        <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+        <p *ngIf="titleError" class="text-red text-xs mt-1">{{ titleError }}</p>
+      </div>
+      <input 
+        type="text" id="title" formControlName="title" placeholder="Enter title"
+        class="bg-transparent border-b-2 w-full p-2 outline-none text-black text-sm transition duration-300 focus:border-primary"
+        [class.border-red]="titleError"/>   
+    </div>
+  
+    <div>
+      <div class='flex justify-between items-center mb-2'>
+        <label for="content" class="block text-sm font-medium text-gray-700 ">Content</label>
+        <p *ngIf="contentError" class="text-red text-xs">{{ contentError }}</p>
+      </div>
+      <textarea 
+        id="content"  formControlName="content"  rows="4" placeholder="Enter content"
+        class="bg-transparent border-2 rounded w-full p-2 outline-none text-black text-sm transition duration-300 focus:border-primary"
+        [class.border-red]="contentError">
+      </textarea>
+    </div>
+  
+    <div *ngIf="currentImageUrl" class="mt-4 w-[150px] h-[150px]">
+      <img [src]="currentImageUrl" alt="Current image" class="w-full h-full rounded-lg object-cover">
+    </div>
+    <div>
+      <label for="image" class="block text-sm font-medium text-gray-700 mb-2">Image</label>
+      <input 
+        type="file" 
+        (change)="onFileSelected($event)" 
+        accept="image/*"
+        class="block text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-dark transition"
+      />
+      <p *ngIf="imageError" class="text-red text-xs mt-1">{{ imageError }}</p>
+    </div>
+  
+    <button 
+      type="submit" 
+      class="w-full bg-primary text-white py-3 px-10 rounded-md text-md font-medium hover:bg-primary-dark transition-colors"
+      [disabled]="postForm.invalid">
+      <span *ngIf="!isLoading">{{ editMode ? 'Update' : 'Add' }} Blog</span>
+      <span *ngIf="isLoading" class="flex items-center justify-center">
+        <svg class="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Processing...
+      </span>
+    </button>
+  </form>
+</div>

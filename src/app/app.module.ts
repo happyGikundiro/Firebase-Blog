@@ -14,6 +14,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { FormComponent } from './auth/form/form.component';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { FormComponent } from './auth/form/form.component';
     provideFirebaseApp(()=>initializeApp(firebaseConfig)),
     provideAuth(()=>getAuth()),
     provideStorage(() => getStorage()),
+    provideFirestore(() => getFirestore()),
   ],
   bootstrap: [AppComponent]
 })
