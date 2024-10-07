@@ -10,9 +10,11 @@ import { Observable, Subscription } from 'rxjs';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+
   isModalOpen: boolean = false;
   user$!: Observable<User | null>;
   private logoutSubscription!: Subscription;
+  showAddForm = false;
 
   constructor(private router: Router, private authService: AuthServices) {}
 
@@ -33,6 +35,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   goToProfile(): void {
     this.router.navigate(['/blog/profile']);
     this.isModalOpen = false;
+  }
+
+  closeAddForm() {
+    this.showAddForm = false;
   }
 
   ngOnDestroy() {

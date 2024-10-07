@@ -13,13 +13,13 @@ This project allows users to create and manage blog posts, with added features f
 - Track interactions via Firebase Analytics
 
 ## Table of Contents
-- [Demo](#demo)
+- [Demo](https://fir-blog-app-cf14c.web.app/)
 - [Features](#features)
 - [Screenshot](#screenshot)
 - [Installation](#installation)
 
 ## Demo
-You can see a live demo of the project [here](#).
+You can see a live demo of the project [here](https://fir-blog-app-cf14c.web.app/).
 
 ## Features
 - **Authentication**: Signup, login, and Google OAuth integration
@@ -31,7 +31,7 @@ You can see a live demo of the project [here](#).
 
 ## Screenshot
 
-<!-- screenshot-->
+![Screenshot 2024-10-06 234532](https://github.com/user-attachments/assets/4a05f755-4d4d-4a33-a6b3-09fc74b2c611)
 
 
 ## Installation
