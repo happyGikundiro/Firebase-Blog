@@ -8,9 +8,7 @@ This project allows users to create and manage blog posts, with added features f
 - View a dynamic layout optimized for any screen size
 - Navigate between Home, Blog List, Blog Detail, and Profile pages
 - Add and manage comments on blog posts
-- See SEO-optimized meta tags for each blog post
 - Use the app offline (PWA support)
-- Track interactions via Firebase Analytics
 
 ## Table of Contents
 - [Demo](https://fir-blog-app-cf14c.web.app/)
@@ -25,9 +23,7 @@ You can see a live demo of the project [here](https://fir-blog-app-cf14c.web.app
 - **Authentication**: Signup, login, and Google OAuth integration
 - **Firestore CRUD**: Create, read, update, and delete blog posts
 - **Responsive Design**: Optimized for different screen sizes (desktop, tablet, mobile)
-- **SEO Optimization**: Dynamic meta tags for improved search engine visibility
 - **PWA Support**: Offline access and app-like experience with service workers
-- **Analytics**: Firebase Analytics to track user interactions and events
 
 ## Screenshot
 
